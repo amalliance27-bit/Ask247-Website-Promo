@@ -214,8 +214,8 @@ var cv=document.getElementById('ama-cover');
 if(cv){ cv.addEventListener('click',function(){
     document.body.style.overflow='';
     cv.style.opacity='0'; setTimeout(function(){ cv.style.display='none'; },480);
-    if(top){ try{ top.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} }
-    startTele();
+    function glideTo(el,done){ try{ var r=el.getBoundingClientRect(),y=r.top+window.scrollY-window.innerHeight/2+r.height/2,s=window.scrollY,d=y-s,t0=null,du=1700; function fr(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/du),e=p<.5?2*p*p:-1+(4-2*p)*p; window.scrollTo(0,s+d*e); if(p<1)requestAnimationFrame(fr); else if(done)done(); } requestAnimationFrame(fr); }catch(e){ if(done)done(); } }
+    if(top){ glideTo(top,function(){ startTele(); }); } else { startTele(); }
     if(top){ top.muted=false; playP(top); }
   }); }
   if(top){
