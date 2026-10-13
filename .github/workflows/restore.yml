@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to restore'
+        description: 'Version to restore (pick one)'
         required: true
         type: choice
         options:
@@ -19,11 +19,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          path: main
+      - uses: actions/checkout@v4
+        with:
           ref: ${{ inputs.version }}
-      - name: Restore to main
+          path: restore
+      - name: Restore site files (keeps .github)
         run: |
+          cd main
           git config user.name "Jarvis-27"
           git config user.email "jarvis@askmorpheus247.com"
-          git checkout -B main
-          git commit --allow-empty -m "Restore ${{ inputs.version }} via restore button"
-          git push origin main --force-with-lease
+          # copy everything from the restore point except .github
+          for f in $(cd ../restore && git ls-files | grep -v '^\.github/'); do
+            mkdir -p "$(dirname "$f")"
+            cp "../restore/$f" "$f"
+          done
+          # remove files that are not in the restore point (except .github)
+          for f in $(git ls-files | grep -v '^\.github/'); do
+            if ! (cd ../restore && git ls-files | grep -qx "$f"); then
+              git rm -q "$f"
+            fi
+          done
+          git add -A
+          git commit -m "Restore ${{ inputs.version }} via restore button" || echo "nothing to commit"
+          git push origin HEAD:main
