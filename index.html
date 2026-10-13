@@ -26,7 +26,7 @@
   .gift { font-size: 64px; text-align: center; margin-bottom: 8px; }
   h1 { text-align: center; font-size: 34px; font-weight: 800; letter-spacing: -0.5px; }
   h1 .accent { color: #5b8cff; }
-  .tagline { text-align: center; color: #8fb0ff; font-size: 21px; font-weight: 700; margin-top: 10px; }
+  .tagline { text-align: center; color: #ffd76a; font-size: 21px; font-weight: 700; margin-top: 10px; }
   .sub { text-align: center; color: #a7adb8; margin-top: 8px; font-size: 17px; }
   .motto {
     text-align: center; color: #8fb0ff; font-style: italic; font-size: 16px;
@@ -47,6 +47,10 @@
     padding: 16px 18px; margin-bottom: 12px; font-size: 19px; line-height: 1.55;
   }
   .benefits li b { color: #8fb0ff; }
+  .benefits li:nth-child(odd) b { color: #ffd76a; }
+  .benefits li:nth-child(even) b { color: #8fb0ff; }
+  .benefits li:nth-child(odd) { border-color: #5a4a1a; }
+  .benefits li:nth-child(even) { border-color: #2a3c66; }
   .steps { counter-reset: s; list-style: none; }
   .steps li {
     position: relative; padding: 12px 12px 12px 52px; margin-bottom: 10px;
@@ -79,10 +83,15 @@
     cursor: pointer;
   }
   .copybtn:active { transform: scale(0.97); }
+  @keyframes cta-pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(47,107,255,0.5); }
+    50% { transform: scale(1.03); box-shadow: 0 0 0 14px rgba(47,107,255,0); }
+  }
   .cta {
     display: block; text-align: center; text-decoration: none;
     background: #2f6bff; color: #fff; font-size: 18px; font-weight: 700;
     padding: 16px; border-radius: 14px; margin: 10px 0 26px;
+    animation: cta-pulse 2s infinite;
   }
   .cta:active { transform: scale(0.98); }
   .qr { text-align: center; margin: 0 0 10px; }
