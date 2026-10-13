@@ -209,7 +209,7 @@ function flash(msg){
   if(panel) panel.appendChild(sp);
   function playP(v){ try{ var p=v.play(); if(p&&p.catch){p.catch(function(){});} }catch(e){} }
   var teleOn=false,teleDir=1,telePauseUntil=0;
-function teleStep(){var now=Date.now();if(now<telePauseUntil){requestAnimationFrame(teleStep);return;}var max=document.documentElement.scrollHeight-window.innerHeight;var y=window.scrollY+teleDir*0.4;if(y>=max){y=max;teleDir=-1;telePauseUntil=now+2500;}else if(y<=0){y=0;teleDir=1;telePauseUntil=now+2500;}window.scrollTo(0,y);requestAnimationFrame(teleStep);}
+function teleStep(){var sounding=(top&&!top.muted&&!top.paused)||(rdm&&!rdm.muted&&!rdm.paused);if(sounding){requestAnimationFrame(teleStep);return;}var now=Date.now();if(now<telePauseUntil){requestAnimationFrame(teleStep);return;}var max=document.documentElement.scrollHeight-window.innerHeight;var y=window.scrollY+teleDir*0.4;if(y>=max){y=max;teleDir=-1;telePauseUntil=now+2500;}else if(y<=0){y=0;teleDir=1;telePauseUntil=now+2500;}window.scrollTo(0,y);requestAnimationFrame(teleStep);}
 function startTele(){if(!teleOn){teleOn=true;telePauseUntil=Date.now()+1500;requestAnimationFrame(teleStep);}}
 sp.addEventListener('click',function(){
     sp.style.display='none'; startTele();
