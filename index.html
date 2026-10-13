@@ -219,6 +219,13 @@ function flash(msg){
   var teleOn=false,teleDir=1,telePauseUntil=0;
 function teleStep(){var now=Date.now();if(now<telePauseUntil){requestAnimationFrame(teleStep);return;}var max=document.documentElement.scrollHeight-window.innerHeight;var y=window.scrollY+teleDir*0.4;if(y>=max){y=max;teleDir=-1;telePauseUntil=now+2500;}else if(y<=0){y=0;teleDir=1;telePauseUntil=now+2500;}window.scrollTo(0,y);requestAnimationFrame(teleStep);}
 function startTele(){if(!teleOn){teleOn=true;telePauseUntil=Date.now()+1200;requestAnimationFrame(teleStep);}}
+// Pause auto-scroll when user interacts (fixes iOS touch scroll)
+var userHoldUntil=0;
+['touchstart','touchmove','wheel','mousedown'].forEach(function(ev){
+  document.addEventListener(ev,function(){userHoldUntil=Date.now()+5000;},{passive:true});
+});
+var _origTeleStep=teleStep;
+teleStep=function(){if(Date.now()<userHoldUntil){requestAnimationFrame(teleStep);return;}_origTeleStep();};
 var cv=document.getElementById('ama-cover');
 if(cv){ cv.addEventListener('click',function(){
     document.body.style.overflow='';
