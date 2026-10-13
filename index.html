@@ -105,9 +105,11 @@
   }
   .wabtn:active { transform: scale(0.98); }
   .wa-sub { text-align: center; color: #a7adb8; font-size: 13px; margin-bottom: 4px; }
+#ama-header{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(8,12,22,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid #1c2942;text-align:center;padding:8px 0 7px;} #ama-header .ama-logo{font-weight:800;font-size:20px;letter-spacing:8px;color:#fff;padding-left:8px;} #ama-header .ama-logo span{color:#2f6bff;} #ama-header .ama-tag{font-size:10px;letter-spacing:3px;color:#8fb0ff;margin-top:2px;} body{padding-top:66px;}
 </style>
 </head>
 <body>
+<header id="ama-header"><div class="ama-logo">A<span>M</span>A</div><div class="ama-tag">ASK MORPHEUS ALLIANCE</div></header>
 <div class="wrap">
 
   <div class="brand">Ask Morpheus Alliance</div>
@@ -206,8 +208,11 @@ function flash(msg){
   sp.innerHTML='<div style="width:88px;height:88px;border-radius:50%;background:#f5c518;display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(245,197,24,0.5);"><div style="width:0;height:0;border-left:32px solid #0a2540;border-top:20px solid transparent;border-bottom:20px solid transparent;margin-left:10px;"></div></div><p style="color:#fff;font-size:18px;font-weight:bold;margin:18px 0 0;">Tap to play</p><p style="color:#8fa3c8;font-size:13px;margin:6px 0 0;">with sound</p>';
   if(panel) panel.appendChild(sp);
   function playP(v){ try{ var p=v.play(); if(p&&p.catch){p.catch(function(){});} }catch(e){} }
-  sp.addEventListener('click',function(){
-    sp.style.display='none';
+  var teleOn=false,teleDir=1,telePauseUntil=0;
+function teleStep(){var now=Date.now();if(now<telePauseUntil){requestAnimationFrame(teleStep);return;}var max=document.documentElement.scrollHeight-window.innerHeight;var y=window.scrollY+teleDir*0.4;if(y>=max){y=max;teleDir=-1;telePauseUntil=now+2500;}else if(y<=0){y=0;teleDir=1;telePauseUntil=now+2500;}window.scrollTo(0,y);requestAnimationFrame(teleStep);}
+function startTele(){if(!teleOn){teleOn=true;telePauseUntil=Date.now()+1500;requestAnimationFrame(teleStep);}}
+sp.addEventListener('click',function(){
+    sp.style.display='none'; startTele();
     if(top){ top.muted=false; playP(top); }
   });
   if(top){
