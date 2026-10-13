@@ -12,7 +12,7 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-size: 20px;
+    font-size: 22px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background: #0e0f13;
     color: #f2f3f5;
@@ -25,7 +25,7 @@
     color: #8fb0ff; text-transform: uppercase; margin-bottom: 14px;
   }
   .gift { font-size: 64px; text-align: center; margin-bottom: 8px; }
-  h1 { text-align: center; font-size: 40px; font-weight: 800; letter-spacing: -0.5px; }
+  h1 { text-align: center; font-size: 48px; font-weight: 800; letter-spacing: -0.5px; }
   h1 .accent { color: #5b8cff; }
   .tagline { text-align: center; color: #8fb0ff; font-size: 19px; font-weight: 700; margin-top: 10px; }
   .sub { text-align: center; color: #a7adb8; margin-top: 8px; font-size: 15px; }
@@ -41,11 +41,11 @@
   .offer .big { font-size: 26px; font-weight: 800; color: #ffd76a; }
   .offer p { color: #c6cdd8; font-size: 17px; margin-top: 6px; }
   .videopanel { margin: 26px 0 6px; padding: 20px; border-radius: 16px; background: #12151c; border: 1px solid #232833; }
-  h2 { font-size: 26px; margin: 30px 0 12px; }
+  h2 { font-size: 30px; margin: 30px 0 12px; }
   .benefits { list-style: none; }
   .benefits li {
     background: #15181f; border: 1px solid #232833; border-radius: 12px;
-    padding: 14px 16px; margin-bottom: 10px; font-size: 19px;
+    padding: 14px 16px; margin-bottom: 10px; font-size: 21px;
   }
   .benefits li b { color: #8fb0ff; }
   .steps { counter-reset: s; list-style: none; }
@@ -119,6 +119,12 @@
 .ama-logo span{color:#2f6bff;}
 .ama-tag{font-size:10px;letter-spacing:3px;color:#8fb0ff;margin-top:2px;}
 body{padding-top:66px;}
+
+.benefits li:nth-child(1) b{color:#4da3ff}.benefits li:nth-child(1){border-left:4px solid #4da3ff}
+.benefits li:nth-child(2) b{color:#4ade80}.benefits li:nth-child(2){border-left:4px solid #4ade80}
+.benefits li:nth-child(3) b{color:#fbbf24}.benefits li:nth-child(3){border-left:4px solid #fbbf24}
+.benefits li:nth-child(4) b{color:#c084fc}.benefits li:nth-child(4){border-left:4px solid #c084fc}
+.benefits li:nth-child(5) b{color:#22d3ee}.benefits li:nth-child(5){border-left:4px solid #22d3ee}
 </style>
 </head>
 <body><header id="ama-header"><div class="ama-logo">A<span>M</span>A</div><div class="ama-tag">ASK MORPHEUS ALLIANCE</div></header><div id="ama-cover"><div><div class="cover-logo">A<span>M</span>A</div><div class="cover-sub">ASK MORPHEUS ALLIANCE</div><div class="cover-cta">TAP TO ENTER</div></div></div>
@@ -218,7 +224,7 @@ function flash(msg){
     if(top){ top.muted=false; playP(top); }
   }); }
   if(top){
-    top.addEventListener('click',function(){ top.muted=!top.muted; });
+    top.addEventListener('click',function(){ top.muted=!top.muted; if(!top.muted&&rdm)rdm.muted=true; });
     top.addEventListener('ended',function(){
       var first=!seqDone; seqDone=true;
       top.muted=true; playP(top);
@@ -227,7 +233,7 @@ function flash(msg){
   }
   if(rdm){
     rdm.addEventListener('click',function(){
-      if(rdm.muted){ rdm.muted=false; try{rdm.currentTime=0;}catch(e){} playP(rdm); }
+      if(rdm.muted){ rdm.muted=false; if(top)top.muted=true; try{rdm.currentTime=0;}catch(e){} playP(rdm); }
       else { rdm.muted=true; }
     });
     rdm.addEventListener('ended',function(){ rdm.muted=true; playP(rdm); });
