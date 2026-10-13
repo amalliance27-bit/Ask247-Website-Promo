@@ -87,6 +87,8 @@
   }
 @keyframes ctaPulse{0%{box-shadow:0 0 0 0 rgba(47,107,255,.55)}70%{box-shadow:0 0 0 16px rgba(47,107,255,0)}100%{box-shadow:0 0 0 0 rgba(47,107,255,0)}}
 .cta{animation:ctaPulse 2.2s infinite}
+@keyframes arrowBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+.cta-arrow{color:#ff3b30;font-size:40px;font-weight:900;text-align:center;line-height:1;animation:arrowBounce 1.2s infinite;margin:6px 0 -4px}
   .cta:active { transform: scale(0.98); }
   .qr { text-align: center; margin: 0 0 10px; }
   .qr img { width: 180px; height: 180px; border-radius: 12px; border: 1px solid #2a3c66; }
@@ -177,7 +179,7 @@ body{padding-top:66px;}
     <button class="copybtn" onclick="copyCode()">Copy code</button>
   </div>
 
-  <a class="cta" href="https://muse.ai/join">Join Muse &amp; claim 1B tokens</a>
+  <div class="cta-arrow">&#x25BC;</div><a class="cta" href="https://muse.ai/join">Join Muse &amp; claim 1B tokens</a>
 
   <div class="qr">
     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOgAAADoAQAAAADN0pXVAAABQElEQVR4nO2YQbODMAiE9+v4///yvgMh0UsPpbW8TJ1RI3twEQIrWE+OxzPwh/4DVM4AW7ZkxRlQT84V9NDwD1mYeBiWppzLKDANiGVpzPlF9FhL5uWG97ZAjXzxuAWrt6KHNAuUJSGzLD05V/2dEcX4ktU9OVdQlt6I2sxZgPTkXO2/trPv5nLYe3Ku96MUG45Udga6MeciChJxk4Ujr7/N6jNohtTIjoZE3PpyfhUdebxE9ElC77h/oy5JcuxhL5t39JcoTUhKbTWa8L77N2IrEytisef+fUgglKFNT9k0vhd9JQsZT3NPzkX9PMRyJrROH6En5+r/wpxvWJgY6oTrPTmX+5GiUOVlQT05l/9/48jojvU3Wd2DYgQRY7xnPp/nGwqtERJ60/gyB1ZmDLDELFg9Ob+p/9763h96D/oHXwWWkO6mqZQAAAAASUVORK5CYII=" alt="Scan to join Muse">
