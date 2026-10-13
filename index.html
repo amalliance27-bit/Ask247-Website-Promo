@@ -214,7 +214,7 @@ var cv=document.getElementById('ama-cover');
 if(cv){ cv.addEventListener('click',function(){
     document.body.style.overflow='';
     cv.style.opacity='0'; setTimeout(function(){ cv.style.display='none'; },480);
-    if(top){ try{ top.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} }
+    window.scrollTo(0,0);
     startTele();
     if(top){ top.muted=false; playP(top); }
   }); }
