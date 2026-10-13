@@ -12,8 +12,6 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    touch-action: pan-y;
-    -webkit-overflow-scrolling: touch;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background: #0e0f13;
     color: #f2f3f5;
@@ -221,22 +219,12 @@ function flash(msg){
   var teleOn=false,teleDir=1,telePauseUntil=0;
 function teleStep(){var now=Date.now();if(now<telePauseUntil){requestAnimationFrame(teleStep);return;}var max=document.documentElement.scrollHeight-window.innerHeight;var y=window.scrollY+teleDir*0.4;if(y>=max){y=max;teleDir=-1;telePauseUntil=now+2500;}else if(y<=0){y=0;teleDir=1;telePauseUntil=now+2500;}window.scrollTo(0,y);requestAnimationFrame(teleStep);}
 function startTele(){if(!teleOn){teleOn=true;telePauseUntil=Date.now()+1200;requestAnimationFrame(teleStep);}}
-// On touch: pause auto-scroll while user is interacting, resume after
-var _userTouching=false;
-document.addEventListener('touchstart',function(){_userTouching=true;},{passive:true});
-document.addEventListener('touchend',function(){setTimeout(function(){_userTouching=false;},3000);},{passive:true});
-var _origStep=teleStep;
-teleStep=function(){
-  if(_userTouching){requestAnimationFrame(teleStep);return;}
-  _origStep();
-};
 
 var cv=document.getElementById('ama-cover');
 if(cv){ cv.addEventListener('click',function(){
     document.body.style.overflow='';
-    document.documentElement.style.overflow='';
-    cv.style.opacity='0'; setTimeout(function(){ cv.style.display='none'; cv.remove(); },480);
-    window.scrollTo(0,0);
+    cv.style.opacity='0'; setTimeout(function(){ cv.style.display='none'; },480);
+    if(top){ try{ top.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} }
     startTele();
     if(top){ top.muted=false; playP(top); }
   }); }
@@ -245,12 +233,12 @@ if(cv){ cv.addEventListener('click',function(){
     top.addEventListener('ended',function(){
       var first=!seqDone; seqDone=true;
       top.muted=true; playP(top);
-      if(first&&rdm){ rdm.muted=false; try{rdm.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){} playP(rdm); }
+      if(first&&rdm){ rdm.muted=false; try{rdm.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){} playP(rdm); }
     });
   }
   if(rdm){
     rdm.addEventListener('click',function(){
-      if(rdm.muted){ rdm.muted=false; sounded=true; try{rdm.currentTime=0;}catch(e){} try{rdm.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){} playP(rdm); }
+      if(rdm.muted){ rdm.muted=false; sounded=true; try{rdm.currentTime=0;}catch(e){} try{rdm.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){} playP(rdm); }
       else { rdm.muted=true; sounded=false; }
     });
     rdm.addEventListener('ended',function(){
