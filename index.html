@@ -12,6 +12,8 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background: #0e0f13;
     color: #f2f3f5;
@@ -218,18 +220,18 @@ function flash(msg){
   function playP(v){ try{ var p=v.play(); if(p&&p.catch){p.catch(function(){});} }catch(e){} }
   var teleOn=false,teleDir=1,telePauseUntil=0;
 function teleStep(){var now=Date.now();if(now<telePauseUntil){requestAnimationFrame(teleStep);return;}var max=document.documentElement.scrollHeight-window.innerHeight;var y=window.scrollY+teleDir*0.4;if(y>=max){y=max;teleDir=-1;telePauseUntil=now+2500;}else if(y<=0){y=0;teleDir=1;telePauseUntil=now+2500;}window.scrollTo(0,y);requestAnimationFrame(teleStep);}
-function startTele(){if(!teleOn){teleOn=true;telePauseUntil=Date.now()+1200;requestAnimationFrame(teleStep);}}
-// Pause auto-scroll when user interacts (fixes iOS touch scroll)
-var userHoldUntil=0;
-['touchstart','touchmove','wheel','mousedown'].forEach(function(ev){
-  document.addEventListener(ev,function(){userHoldUntil=Date.now()+5000;},{passive:true});
-});
-var _origTeleStep=teleStep;
-teleStep=function(){if(Date.now()<userHoldUntil){requestAnimationFrame(teleStep);return;}_origTeleStep();};
+function startTele(){
+  // Never auto-scroll on touch devices - user controls scrolling
+  var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  if(isTouch){ return; }
+  if(!teleOn){teleOn=true;telePauseUntil=Date.now()+1200;requestAnimationFrame(teleStep);}
+}
+
 var cv=document.getElementById('ama-cover');
 if(cv){ cv.addEventListener('click',function(){
     document.body.style.overflow='';
-    cv.style.opacity='0'; setTimeout(function(){ cv.style.display='none'; },480);
+    document.documentElement.style.overflow='';
+    cv.style.opacity='0'; setTimeout(function(){ cv.style.display='none'; cv.remove(); },480);
     window.scrollTo(0,0);
     startTele();
     if(top){ top.muted=false; playP(top); }
