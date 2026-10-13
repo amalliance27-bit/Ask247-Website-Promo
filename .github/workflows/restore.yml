@@ -1,0 +1,29 @@
+name: Restore Version
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to restore'
+        required: true
+        type: choice
+        options:
+          - restore-complete
+          - restore-ok-autoplay
+          - restore-autoplay
+          - restore-current-live
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version }}
+      - name: Restore to main
+        run: |
+          git config user.name "Jarvis-27"
+          git config user.email "jarvis@askmorpheus247.com"
+          git checkout -B main
+          git commit --allow-empty -m "Restore ${{ inputs.version }} via restore button"
+          git push origin main --force-with-lease
