@@ -105,9 +105,16 @@
   }
   .wabtn:active { transform: scale(0.98); }
   .wa-sub { text-align: center; color: #a7adb8; font-size: 13px; margin-bottom: 4px; }
+
+#ama-cover{position:fixed;inset:0;z-index:200;background:radial-gradient(ellipse at 50% 32%,#132c60 0%,#070d1d 72%);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .45s ease;}
+.cover-logo{font-weight:800;font-size:64px;letter-spacing:14px;color:#fff;text-align:center;padding-left:14px;}
+.cover-logo span{color:#2f6bff;}
+.cover-sub{font-size:15px;letter-spacing:5px;color:#8fb0ff;text-align:center;margin-top:10px;padding-left:5px;}
+.cover-cta{margin:36px auto 0;width:fit-content;padding:14px 36px;border:2px solid #f03846;border-radius:999px;color:#fff;font-weight:700;font-size:19px;letter-spacing:2px;animation:coverPulse 1.8s ease-in-out infinite;}
+@keyframes coverPulse{0%,100%{box-shadow:0 0 0 0 rgba(240,56,70,.55);}50%{box-shadow:0 0 26px 6px rgba(240,56,70,.4);}}
 </style>
 </head>
-<body>
+<body><div id="ama-cover"><div><div class="cover-logo">A<span>M</span>A</div><div class="cover-sub">ASK MORPHEUS ALLIANCE</div><div class="cover-cta">TAP TO ENTER</div></div></div>
 <div class="wrap">
 
   <div class="brand">Ask Morpheus Alliance</div>
@@ -187,6 +194,11 @@ function flash(msg){
   var old = b.textContent; b.textContent = msg;
   setTimeout(function(){ b.textContent = old; }, 1500);
 }
+</script>
+<script>
+document.getElementById('ama-cover').addEventListener('click',function(){
+  var c=this; c.style.opacity='0'; setTimeout(function(){ c.style.display='none'; },480);
+});
 </script>
 </body>
 </html>
