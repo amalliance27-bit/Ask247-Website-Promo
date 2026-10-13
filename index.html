@@ -85,6 +85,8 @@
     background: #2f6bff; color: #fff; font-size: 18px; font-weight: 700;
     padding: 16px; border-radius: 14px; margin: 10px 0 26px;
   }
+@keyframes ctaPulse{0%{box-shadow:0 0 0 0 rgba(47,107,255,.55)}70%{box-shadow:0 0 0 16px rgba(47,107,255,0)}100%{box-shadow:0 0 0 0 rgba(47,107,255,0)}}
+.cta{animation:ctaPulse 2.2s infinite}
   .cta:active { transform: scale(0.98); }
   .qr { text-align: center; margin: 0 0 10px; }
   .qr img { width: 180px; height: 180px; border-radius: 12px; border: 1px solid #2a3c66; }
