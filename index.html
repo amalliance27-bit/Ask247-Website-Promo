@@ -215,12 +215,12 @@ function flash(msg){
     top.addEventListener('ended',function(){
       var first=!seqDone; seqDone=true;
       top.muted=true; playP(top);
-      if(first&&rdm){ rdm.muted=false; playP(rdm); }
+      if(first&&rdm){ rdm.muted=false; try{rdm.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){} playP(rdm); }
     });
   }
   if(rdm){
     rdm.addEventListener('click',function(){
-      if(rdm.muted){ rdm.muted=false; sounded=true; try{rdm.currentTime=0;}catch(e){} playP(rdm); }
+      if(rdm.muted){ rdm.muted=false; sounded=true; try{rdm.currentTime=0;}catch(e){} try{rdm.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){} playP(rdm); }
       else { rdm.muted=true; sounded=false; }
     });
     rdm.addEventListener('ended',function(){
