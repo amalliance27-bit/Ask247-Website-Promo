@@ -166,6 +166,26 @@ body{padding-top:66px;}
     <source src="vpn-howto-signup.mp4" type="video/mp4">
   </video>
   <p style="text-align:center;color:#8fa3c8;font-size:16px;margin:8px 0 0;">Tap the video to hear the walkthrough.</p>
+
+  <div style="margin-top:28px; padding:20px; border-radius:16px; background:#12151c; border:1px solid #232833;">
+    <h2 style="margin-top:0;">How to download and set up the VPN — step by step</h2>
+    <div style="margin-bottom:20px;">
+      <p style="color:#fff; font-size:18px; font-weight:bold; margin:0 0 8px;">Step 1</p>
+      <img src="vpn-step2.png" alt="Step 1" style="width:100%; border-radius:12px; border:1px solid #2a3c66;">
+    </div>
+    <div style="margin-bottom:20px;">
+      <p style="color:#fff; font-size:18px; font-weight:bold; margin:0 0 8px;">Step 2</p>
+      <img src="vpn-step7.png" alt="Step 2" style="width:100%; border-radius:12px; border:1px solid #2a3c66;">
+    </div>
+    <div style="margin-bottom:20px;">
+      <p style="color:#fff; font-size:18px; font-weight:bold; margin:0 0 8px;">Step 3</p>
+      <img src="vpn-step12.png" alt="Step 3" style="width:100%; border-radius:12px; border:1px solid #2a3c66;">
+    </div>
+    <div style="margin-bottom:0;">
+      <p style="color:#fff; font-size:18px; font-weight:bold; margin:0 0 8px;">Step 4</p>
+      <img src="vpn-step17.png" alt="Step 4" style="width:100%; border-radius:12px; border:1px solid #2a3c66;">
+    </div>
+  </div>
   </div>
 
   <h2>Why Muse? Better than chat.</h2>
@@ -233,10 +253,21 @@ function flash(msg){
   var seqDone=false;
   function playP(v){ try{ var p=v.play(); if(p&&p.catch){p.catch(function(){});} }catch(e){} }
   var cv=document.getElementById('ama-cover');
-  if(cv){ cv.addEventListener('click',function(){
+  function dismissCover(){
+    if(!cv || cv.style.display==='none') return;
     cv.style.opacity='0'; setTimeout(function(){ cv.style.display='none'; },480);
     if(top){ top.muted=false; playP(top); }
-  }); }
+  }
+  if(cv){
+    cv.addEventListener('click', dismissCover);
+    cv.addEventListener('touchend', dismissCover);
+    // tap anywhere on the cover dismisses it
+    cv.style.cursor='pointer';
+  }
+  // also allow tapping anywhere on body while cover is visible
+  document.addEventListener('touchend', function(e){
+    if(cv && cv.style.display!=='none'){ dismissCover(); }
+  });
   if(top){
     top.addEventListener('click',function(){ top.muted=!top.muted; if(!top.muted&&rdm)rdm.muted=true; });
     top.addEventListener('ended',function(){
