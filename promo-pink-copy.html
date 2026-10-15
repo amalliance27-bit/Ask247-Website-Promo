@@ -161,6 +161,11 @@ body{padding-top:66px;}
     <source src="redeem-howto-v3.mp4" type="video/mp4">
   </video>
   <p style="text-align:center;color:#8fa3c8;font-size:16px;margin:8px 0 0;">Tap the video to hear the walkthrough.</p>
+  <h2 style="margin-top:24px;">How to sign up with VPN</h2>
+  <video id="vid-vpn" muted playsinline preload="metadata" disablepictureinpicture style="width:100%; border-radius:12px; border:1px solid #2a3c66; cursor:pointer;">
+    <source src="vpn-howto-signup.mp4" type="video/mp4">
+  </video>
+  <p style="text-align:center;color:#8fa3c8;font-size:16px;margin:8px 0 0;">Tap the video to hear the walkthrough.</p>
   </div>
 
   <h2>Why Muse? Better than chat.</h2>
@@ -245,7 +250,15 @@ function flash(msg){
       if(rdm.muted){ rdm.muted=false; if(top)top.muted=true; try{rdm.currentTime=0;}catch(e){} playP(rdm); }
       else { rdm.muted=true; }
     });
-    rdm.addEventListener('ended',function(){ rdm.muted=true; playP(rdm); });
+    rdm.addEventListener('ended',function(){ var vpn=document.getElementById('vid-vpn'); rdm.muted=true; if(vpn){ vpn.muted=false; playP(vpn); } else { playP(rdm); } });
+  var vpn=document.getElementById('vid-vpn');
+  if(vpn){
+    vpn.addEventListener('click',function(){
+      if(vpn.muted){ vpn.muted=false; if(top)top.muted=true; if(rdm)rdm.muted=true; try{vpn.currentTime=0;}catch(e){} playP(vpn); }
+      else { vpn.muted=true; }
+    });
+    vpn.addEventListener('ended',function(){ vpn.muted=true; playP(vpn); });
+  }
   }
 })();
 </script>
