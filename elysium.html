@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Elysium</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100dvh; overflow: hidden; background: #000; font-family: Georgia, serif; }
+  .frame { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 10;
+    border: 10px solid transparent;
+    border-image: linear-gradient(135deg, #e8e8e8 0%, #a0a0a0 25%, #f5f5f5 50%, #808080 75%, #d0d0d0 100%) 1;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
+  .nameplate { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 11; pointer-events: none;
+    background: rgba(0,0,0,0.7); padding: 6px 24px; border-radius: 4px; border: 1px solid rgba(212,175,55,0.3); }
+  .nameplate span { font-size: 18px; letter-spacing: 8px; font-weight: bold;
+    background: linear-gradient(135deg, #f5d576 0%, #d4af37 50%, #f5d576 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  video { position: fixed; top: 10px; left: 10px; width: calc(100% - 20px); height: calc(100dvh - 20px);
+    object-fit: cover; z-index: 1; }
+  .overlay-text { position: fixed; z-index: 20; pointer-events: none; text-align: center; width: 100%;
+    opacity: 0; transition: opacity 1.5s ease; }
+  #ama-presents { top: 40%; font-size: 42px; color: #f5d576; letter-spacing: 6px; text-shadow: 0 2px 20px rgba(0,0,0,0.8); }
+  #enjoy-view { top: 50%; font-size: 36px; color: #fff; letter-spacing: 4px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.8); white-space: nowrap; }
+  .overlay-text.show { opacity: 1; }
+  @keyframes slideAcross { from { transform: translateX(100vw); } to { transform: translateX(-100vw); } }
+  #enjoy-view.sliding { animation: slideAcross 6s linear; }
+</style>
+</head>
+<body>
+  <video id="bg-video" autoplay muted loop playsinline preload="auto">
+    <source src="https://raw.githubusercontent.com/amalliance27-bit/Ask247-Website-Promo/e57b1d3c625c48a89c4a23f4abc062d42e394726/AMALOVEU%20video.mp4" type="video/mp4">
+  </video>
+  <div class="frame"></div>
+  <div class="nameplate"><span>AMA</span></div>
+  <div id="ama-presents" class="overlay-text">AMA presents</div>
+  <div id="enjoy-view" class="overlay-text">Enjoy the view</div>
+<script>
+  const video = document.getElementById('bg-video');
+  const amaPresents = document.getElementById('ama-presents');
+  const enjoyView = document.getElementById('enjoy-view');
+  let played = false;
+  video.play().catch(()=>{});
+  document.addEventListener('click', () => {
+    video.muted = false; video.play();
+    if (!played) {
+      played = true;
+      amaPresents.classList.add('show');
+      setTimeout(() => {
+        amaPresents.classList.remove('show');
+        enjoyView.classList.add('show','sliding');
+        if ('speechSynthesis' in window) {
+          const u = new SpeechSynthesisUtterance('Enjoy the view');
+          u.rate = 0.9; speechSynthesis.speak(u);
+        }
+        setTimeout(() => enjoyView.classList.remove('show','sliding'), 6000);
+      }, 3000);
+    }
+  });
+</script>
+</body>
+</html>
