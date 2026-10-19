@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>AMA 3D</title>
+<title>AMA</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 100%; height: 100dvh; overflow: hidden; background: #000; font-family: Georgia, serif; }
@@ -25,6 +25,27 @@
   .overlay-text.show { opacity: 1; }
   @keyframes slideAcross { from { transform: translateX(100vw); } to { transform: translateX(-100vw); } }
   #enjoy-view.sliding { animation: slideAcross 6s linear; }
+  /* AMA rise animation */
+  #ama-rise {
+    top: 60%;
+    font-size: 72px;
+    font-weight: bold;
+    letter-spacing: 20px;
+    background: linear-gradient(135deg, #f5d576 0%, #d4af37 50%, #f5d576 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 2px 20px rgba(0,0,0,0.8));
+  }
+  @keyframes riseUp {
+    from { transform: translateY(100vh); opacity: 0; }
+    20% { opacity: 1; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  #ama-rise.rising {
+    animation: riseUp 4s ease-out forwards;
+  }
 </style>
 </head>
 <body>
@@ -35,6 +56,7 @@
   <div class="nameplate"><span>AMA</span></div>
   <div id="ama-presents" class="overlay-text">AMA presents</div>
   <div id="enjoy-view" class="overlay-text">Enjoy the view</div>
+  <div id="ama-rise" class="overlay-text">AMA</div>
 <script>
   const video = document.getElementById('bg-video');
   const amaPresents = document.getElementById('ama-presents');
@@ -45,7 +67,13 @@
     video.muted = false; video.play();
     if (!played) {
       played = true;
-      amaPresents.classList.add('show');
+      // AMA rises first
+      const amaRise = document.getElementById('ama-rise');
+      amaRise.classList.add('show', 'rising');
+      setTimeout(() => {
+        amaRise.classList.remove('show', 'rising');
+        amaPresents.classList.add('show');
+      }, 4500);
       setTimeout(() => {
         amaPresents.classList.remove('show');
         enjoyView.classList.add('show','sliding');
@@ -54,7 +82,7 @@
           u.rate = 0.9; speechSynthesis.speak(u);
         }
         setTimeout(() => enjoyView.classList.remove('show','sliding'), 6000);
-      }, 3000);
+      }, 7500);
     }
   });
 </script>
