@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>A Drive to Contax360</title>
+<!-- drive-v4 -->
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   html,body { height:100%; background:#0b0b0d; font-family: Georgia, 'Times New Roman', serif; overflow:hidden; }
@@ -71,15 +72,13 @@
   var audio = document.getElementById('bgm'); audio.volume = 0.9;
   var narr = document.getElementById('narr');
   var musicBtn = document.getElementById('musicBtn'), ppBtn = document.getElementById('ppBtn');
-  var musicWanted = true, wasMusic = false;
+  var musicWanted = false, wasMusic = false;
   function setMusicLabel(){ musicBtn.innerHTML = (audio.paused ? '&#9834; MUSIC: OFF' : '&#9834; MUSIC: ON'); }
-  function startMusic(){ if (musicWanted && audio.paused && narr.paused) { var p = audio.play(); if (p) p.catch(function(){}); } }
+  function startMusic(){ if (audio.paused && narr.paused) { musicWanted = true; var p = audio.play(); if (p) p.catch(function(){}); } }
   audio.addEventListener('play', setMusicLabel); audio.addEventListener('pause', setMusicLabel);
-  musicBtn.onclick = function(){ musicWanted = audio.paused; if (audio.paused) { if (!narr.paused) narr.pause(); startMusic(); } else audio.pause(); setMusicLabel(); };
+  musicBtn.onclick = function(){ if (audio.paused) { if (!narr.paused) narr.pause(); startMusic(); } else { musicWanted = false; audio.pause(); } setMusicLabel(); };
   narr.addEventListener('play', function(){ wasMusic = !audio.paused; if (wasMusic) audio.pause(); });
   narr.addEventListener('ended', function(){ if (wasMusic) startMusic(); });
-  document.addEventListener('pointerdown', function(e){ if (!e.target.closest('audio')) startMusic(); });
-  document.addEventListener('keydown', function(){ startMusic(); });
   function show(n){
     i = (n + slides.length) % slides.length;
     slides.forEach(function(s,k){ s.classList.toggle('on', k===i); });
@@ -97,7 +96,7 @@
   document.getElementById('prev').onclick = function(){ manual(i-1); };
   ppBtn.onclick = function(){ timer ? stop() : play(); };
   var startBtn = document.getElementById('startBtn');
-  if (startBtn) startBtn.onclick = function(){ musicWanted = true; startMusic(); show(1); play(); };
+  if (startBtn) startBtn.onclick = function(){ if (!narr.paused) narr.pause(); startMusic(); show(1); play(); };
   document.addEventListener('keydown', function(e){
     if (e.key === 'ArrowRight') manual(i+1);
     if (e.key === 'ArrowLeft') manual(i-1);
